@@ -1,0 +1,32 @@
+{
+    "name": "nagser/users",
+    "type": "yii2-extension",
+
+    "description": "This module display users information",
+    "keywords": ["nagser"],
+    "license": "GPL-3.0+",
+    "support": {
+        "source": "https://github.com/nagser/users"
+    },
+    "authors": [
+        {
+            "name": "NagSer",
+            "email": "tech@eventarium.pro"
+        }
+    ],
+
+    "require": {
+        "yiisoft/yii2": "2.0.*",
+        "nagser/base": "dev-master",
+        "dektrium/yii2-user": "^0.9.5"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "nagser\\users\\": ""
+        }
+    },
+    "extra": {
+        "bootstrap": "nagser\\users\\Bootstrap"
+    }
+}
