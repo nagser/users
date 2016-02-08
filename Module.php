@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\users;
+namespace nagser\users;
 
 class Module extends \nagser\base\core\Module {
 

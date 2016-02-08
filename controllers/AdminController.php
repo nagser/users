@@ -1,26 +1,22 @@
 <?php
 
-namespace app\modules\users\controllers;
+namespace nagser\users\controllers;
 
-use app\base\behaviors\CustomAdminControllerBehavior;
-use app\modules\users\models\User;
-use app\modules\users\Module;
-use app\modules\UserSearch;
+use nagser\users\models\User;
+use nagser\users\Module;
+use nagser\base\behaviors\AdminControllerBehavior;
 use omgdef\multilingual\MultilingualQuery;
 use Yii;
-use yii\base\Response;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
-use yii\web\BadRequestHttpException;
 
 class AdminController extends \dektrium\user\controllers\AdminController {
 
     public function behaviors(){
         return [
             'controller' => [
-                'class' => CustomAdminControllerBehavior::className(),
+                'class' => AdminControllerBehavior::className(),
                 'module' => Module::className()
             ],
             'verbs' => [
@@ -64,6 +60,11 @@ class AdminController extends \dektrium\user\controllers\AdminController {
                         'allow' => true,
                         'roles' => ['users-admin-delete'],
                     ],
+                    [
+                        'actions' => ['block'],
+                        'allow' => true,
+                        'roles' => ['users-admin-block'],
+                    ],
                 ],
             ],
         ];
@@ -85,15 +86,15 @@ class AdminController extends \dektrium\user\controllers\AdminController {
      * */
     public function actionSelect2List($search = '', $value = '', $colAlias = 'title')
     {
-        /** @var User $recordModel * */
-        $recordModel = User::className();
-        /** @var User $recordModelObject * */
-        $table = $recordModel::tableName();
+        /** @var User $model * */
+        $model = User::className();
+        /** @var User $modelObject * */
+        $table = $model::tableName();
         $alias = $colAlias;
         $out = ['more' => false];
         if (!is_null($search)) {
-            $query = new MultilingualQuery($recordModel);
-            $query->select('DISTINCT(' . $alias . '), ' . $alias . ' AS text')
+            $query = new MultilingualQuery($model);
+            $query->select('DISTINCT(' . $alias . ') AS id, ' . $alias . ' AS text')
                 ->from($table)
                 ->joinWith('profile');
             $query->where($alias . ' LIKE "%' . $search . '%"')
@@ -102,7 +103,7 @@ class AdminController extends \dektrium\user\controllers\AdminController {
             $data = $command->queryAll();
             $out['results'] = array_values($data);
         } elseif ($value > 0) {
-            $out['results'] = ['id' => $value, 'text' => $recordModel::find($value)->$colAlias];
+            $out['results'] = ['id' => $value, 'text' => $model::find($value)->$colAlias];
         }
         return Json::encode($out);
     }

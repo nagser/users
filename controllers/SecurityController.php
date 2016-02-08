@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\users\controllers;
+namespace nagser\users\controllers;
 
-use app\modules\users\Module;
+use nagser\users\Module;
 use nagser\base\behaviors\ControllerBehavior;
 
 class SecurityController extends \dektrium\user\controllers\SecurityController {

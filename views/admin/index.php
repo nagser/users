@@ -9,13 +9,12 @@
  * file that was distributed with this source code.
  */
 
-use dektrium\user\models\UserSearch;
+use nagser\users\models\UserSearch;
+use nagser\base\widgets\GridView\GridView;
 use yii\data\ActiveDataProvider;
-use app\base\widgets\GridView\AdminGridView;
 use yii\helpers\Html;
 use yii\jui\DatePicker;
 use yii\web\View;
-use yii\widgets\Pjax;
 
 /**
  * @var View $this
@@ -31,13 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?= Html::a(Yii::t('user', 'New user'), ['/user/admin/create'], ['class' => 'btn btn-default'])?>
 </p>
 
-<?= AdminGridView::widget([
+<?= GridView::widget([
     'dataProvider' 	=> $dataProvider,
     'filterModel'  	=> $searchModel,
     'columns' => [
         [
             'attribute' => 'username',
-            'filterType' => AdminGridView::FILTER_SELECT2,
+            'filterType' => GridView::FILTER_SELECT2,
             'filterWidgetOptions' => [
                 'pluginOptions' => [
                     'ajax' => [
@@ -49,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'attribute' => 'email',
             'format' => 'email',
-            'filterType' => AdminGridView::FILTER_SELECT2,
+            'filterType' => GridView::FILTER_SELECT2,
             'filterWidgetOptions' => [
                 'pluginOptions' => [
                     'ajax' => [
@@ -66,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     : $model->registration_ip;
             },
             'format' => 'html',
-            'filterType' => AdminGridView::FILTER_SELECT2,
+            'filterType' => GridView::FILTER_SELECT2,
             'filterWidgetOptions' => [
                 'pluginOptions' => [
                     'ajax' => [
@@ -132,6 +131,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'data-modal-type' => 'confirm',
                         'data-pjax' => true,
                         'data-confirm' => false,
+                        'data-button-type' => 'POST',
                         'data-message' => Yii::t('user', 'Are you sure you want to block this user?')
                     ]);
                 }
@@ -139,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'format' => 'raw',
         ],
         [
-            'class' => 'app\base\widgets\ActionColumn\AdminActionColumn',
+            'class' => 'nagser\base\widgets\ActionColumn\ActionColumn',
             'template' => '{view} {delete}',
         ],
     ],
