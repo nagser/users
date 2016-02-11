@@ -2,6 +2,6 @@
 
 namespace nagser\users;
 
-class Module extends \nagser\base\core\Module {
+class Module extends \nagser\base\Module {
 
 }

@@ -24,7 +24,6 @@ class AuthorBehavior extends AttributeBehavior {
         }
     }
 
-
     protected function getValue($event){
         if ($this->value instanceof Expression) {
             return $this->value;
